@@ -170,23 +170,6 @@
 
       <div class="card">
         <div class="card-head">
-          <h3>MILLE</h3>
-          <span class="badge shipped">Public benchmark</span>
-        </div>
-        <p class="desc">An AI-assisted requirements system that turns a plain-language ML request and optional dataset into a structured, agent-ready implementation blueprint. Deterministic quality gates expose assumptions, broken specifications, invalid metrics, and acceptance criteria before code generation begins.</p>
-        <canvas id="cv-millie"></canvas>
-        <div class="log mono" id="log-millie">&gt;</div>
-        <div class="stack mono">Python · MCP · deterministic kernel</div>
-        <div class="tags">
-          <span class="chip">ML Workflow Automation</span>
-          <span class="chip">Prediction Tooling</span>
-          <span class="chip">AI Assistant Prototyping</span>
-        </div>
-        <a class="view" href="https://huggingface.co/spaces/AhmedMSLTI/Millie" target="_blank" rel="noopener">huggingface.co/spaces/AhmedMSLTI/Millie</a>
-      </div>
-
-      <div class="card">
-        <div class="card-head">
           <h3>JENGA</h3>
           <span class="badge neutral">Prototype / startup project</span>
         </div>
@@ -237,11 +220,6 @@
       </div>
 
     </div>
-
-    <div class="now-strip">
-      <span class="tag">&gt;</span>
-      <span>MILLE is evaluated on a public 200-case synthetic benchmark with explicit checks for contracts, task framing, required coverage, and failure avoidance.</span>
-    </div>
   </section>
 
   <section>
@@ -250,7 +228,7 @@
     <div class="roles">
       <div class="role-card">
         <h4>AI Implementation</h4>
-        <p>PHYSIS, Jenga, and MILLE show how I move from an operational problem to a tested system or working prototype; MILLE and AL-MIRAAH are available as live public tools.</p>
+        <p>PHYSIS and Jenga show how I move from an operational problem to a tested system or working prototype; AL-MIRAAH is available as a live public tool.</p>
       </div>
       <div class="role-card">
         <h4>LLM Evaluation</h4>
@@ -271,7 +249,7 @@
     <div class="section-label mono">Proof in Numbers</div>
     <div class="stats">
       <div class="stat">
-        <span class="num mono">4</span>
+        <span class="num mono">3</span>
         <span class="lbl">Independent AI / operations systems built</span>
       </div>
       <div class="stat">
@@ -279,8 +257,8 @@
         <span class="lbl">Arabic NLP papers published (Zenodo)</span>
       </div>
       <div class="stat">
-        <span class="num mono">2</span>
-        <span class="lbl">Public demos on Hugging Face</span>
+        <span class="num mono">1</span>
+        <span class="lbl">Public demo on Hugging Face</span>
       </div>
       <div class="stat">
         <span class="num mono">100+</span>
@@ -301,7 +279,7 @@
   <section>
     <div class="section-label mono">Intellectual Foundation</div>
     <div class="dual">
-      <p>Across MILLE, Jenga, PHYSIS, and AL-MIRAAH, the same method repeats: take an uncertain, unstructured problem — a machine learning task, a booking calendar, a hotel floor plan, a body of classical Arabic text — and translate it into a structured system that can be tested rather than just trusted. That instinct has roots in classical Arabic philology, a discipline built around translating meaning precisely across forms: root to derivation, structure to sense. The engineering work applies the same instinct to operations and language models — turning a messy, human description of a problem into something that can be verified, and explaining the result back in plain terms.</p>
+      <p>Across Jenga, PHYSIS, and AL-MIRAAH, the same method repeats: take an uncertain, unstructured problem — a booking calendar, a hotel floor plan, a body of classical Arabic text — and translate it into a structured system that can be tested rather than just trusted. That instinct has roots in classical Arabic philology, a discipline built around translating meaning precisely across forms: root to derivation, structure to sense. The engineering work applies the same instinct to operations and language models — turning a messy, human description of a problem into something that can be verified, and explaining the result back in plain terms.</p>
       <div class="miniGrid" aria-hidden="true">
         <div class="on"></div><div></div><div class="on"></div>
         <div></div><div class="on"></div><div></div>
@@ -617,86 +595,9 @@ function drawAlmiraah(ctx, w, h, t){
   return "> GEOMETRY = MEANING";
 }
 
-/* ---------------- MILLIE ---------------- */
-function drawMillie(ctx, w, h, t){
-  const CYCLE = 9000;
-  const tt = t % CYCLE;
-  ctx.clearRect(0, 0, w, h);
-  const laneY = h * 0.38, gateX = w * 0.55;
-
-  ctx.strokeStyle = THEME.hairline;
-  ctx.beginPath(); ctx.moveTo(16, laneY); ctx.lineTo(w - 16, laneY); ctx.stroke();
-  ctx.strokeStyle = THEME.ink;
-  ctx.lineWidth = 2;
-  ctx.beginPath(); ctx.moveTo(gateX, laneY - 24); ctx.lineTo(gateX, laneY + 24); ctx.stroke();
-
-  ctx.strokeStyle = THEME.amber;
-  ctx.lineWidth = 1;
-  ctx.strokeRect(gateX - 38, h - 28, 76, 18);
-  ctx.fillStyle = THEME.nodeGray;
-  ctx.font = '8px "IBM Plex Mono", monospace';
-  ctx.textAlign = "center";
-  ctx.fillText("FLAGGED", gateX, h - 16);
-  ctx.textAlign = "start";
-
-  const nodes = [
-    { t0: 200, outcome: "pass", label: "NODE_03" },
-    { t0: 1600, outcome: "pass", label: "NODE_04" },
-    { t0: 3000, outcome: "block", label: "NODE_07", reason: "SOFT NODE, NO RE-DERIVATION EDGE" },
-    { t0: 5200, outcome: "pass", label: "NODE_09" },
-    { t0: 6600, outcome: "pass", label: "NODE_11" }
-  ];
-  const speed = (w - 32) / 3400;
-  const gateHitDelay = (gateX - 16) / speed;
-
-  let logMsg = "> STREAM IDLE";
-
-  nodes.forEach(n => {
-    const dt = tt - n.t0;
-    if (dt < 0) return;
-    let x = 16 + dt * speed;
-    let y = laneY;
-    let color = THEME.green;
-    const hitGate = x >= gateX;
-
-    if (hitGate){
-      const sinceGate = dt - gateHitDelay;
-      if (n.outcome === "pass"){
-        color = THEME.green;
-        if (sinceGate > 0 && sinceGate < 250) logMsg = "> " + n.label + ": SETTLED — PASS";
-      } else {
-        color = THEME.amber;
-        const holdT = 250;
-        if (sinceGate < holdT){
-          x = gateX;
-          if (sinceGate > 0) logMsg = "> " + n.label + ": CHECKING INVARIANTS...";
-        } else {
-          const df = sinceGate - holdT;
-          x = gateX + df * 0.3;
-          y = laneY + df * 0.8;
-          if (df < 200) logMsg = "> " + n.label + ": BLOCKED — " + n.reason;
-        }
-      }
-    }
-
-    if (x > w + 16 || y > h + 10) return;
-
-    ctx.fillStyle = color;
-    ctx.fillRect(x - 14, y - 8, 28, 16);
-    ctx.fillStyle = THEME.onFill;
-    ctx.font = '8px "IBM Plex Mono", monospace';
-    ctx.textAlign = "center";
-    ctx.fillText(n.label.replace("NODE_", ""), x, y + 3);
-    ctx.textAlign = "start";
-  });
-
-  return logMsg;
-}
-
 /* ---------------- DRIVER ---------------- */
 const panels = [
   { id: "hero", draw: drawVerificationGrid },
-  { id: "millie", draw: drawMillie },
   { id: "jenga", draw: drawJenga },
   { id: "physis", draw: drawPhysis },
   { id: "almiraah", draw: drawAlmiraah }
